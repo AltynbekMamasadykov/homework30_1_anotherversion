@@ -5,6 +5,20 @@ import java.util.List;
 
 public class UserDao {
 
-    public static List<User> users = new ArrayList<>();
+    private List<User> users = new ArrayList<>();
 
+    public UserDao() {
+    }
+
+    public UserDao(List<User> users) {
+        this.users = users;
+    }
+
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
+    }
 }

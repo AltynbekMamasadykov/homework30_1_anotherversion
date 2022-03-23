@@ -6,40 +6,36 @@ import com.company.service.UserService;
 import java.util.List;
 
 public class UserServiceImpl implements UserService {
+    private UserDao userDao = new UserDao();
 
     @Override
-    public void addUser(User user) {
-        UserDao.users.add(user);
+    public void addUser(List<User> user) {
+        userDao.setUsers(user);
     }
 
     @Override
-    public void findWithId(int id) {
-        try{
-            if(checkIfUserExist(id)){
-                throw new NoSuchIdException("No user found with that id");
-            }UserDao.users.stream().filter(user -> user.getId() == id).forEach(System.out::println);
-        }catch (NoSuchIdException e){
-            System.out.println(e.getMessage());
+    public List<User> findById(int id) {
+        if (checkTrueOrFalse(id)) {
+            try {
+                throw new NoSuchIdException("There is no such id");
+            }catch (NoSuchIdException e) {
+                System.out.println(e.getMessage());
+            }
         }
+        return userDao.getUsers().stream().filter(x -> x.getId() == id).toList();
     }
 
     @Override
     public void deleteWithId(int id) {
-        try{
-            if(checkIfUserExist(id)){
-                throw new NoSuchIdException("No user found with that id to delete");
-            }UserDao.users.removeIf(user -> user.getId()==id);
-        }catch (NoSuchIdException e){
-            System.out.println(e.getMessage());
-        }
+        userDao.getUsers().removeIf(user -> user.getId() == id);
     }
 
     @Override
     public List<User> getAllUsers() {
-        return UserDao.users.stream().toList();
+        return userDao.getUsers().stream().toList();
     }
 
-    public boolean checkIfUserExist(int id) {
-        return UserDao.users.stream().filter(user -> user.getId() == id).findFirst().isEmpty();
+    public boolean checkTrueOrFalse(int id) {
+        return userDao.getUsers().stream().filter(user -> user.getId() == id).findFirst().isEmpty();
     }
 }
