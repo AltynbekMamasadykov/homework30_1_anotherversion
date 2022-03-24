@@ -8,13 +8,13 @@ import java.util.List;
 
 
 public class UserServiceImpl implements UserService {
-    private final UserDao userDao = new UserDao();
+    private UserDao userDao = new UserDao();
 
     @Override
     public void addUser(User user) {
         if(userDao.getUsers().stream().map(User::getId).toList().contains(user.getId())){
             try {
-                throw new ThatIdIsAlreadyInUse("There is already a user with id:"+user.getId()+" So you cant add this user");
+                throw new ThatIdIsAlreadyInUse("There is already a user with id:"+user.getId()+" So you cant add this user:"+user.getName());
             }catch (ThatIdIsAlreadyInUse e) {
                 System.out.println(e.getMessage());
             }
@@ -44,7 +44,7 @@ public class UserServiceImpl implements UserService {
     public void deleteWithId(int id) {
         if(checkTrueOrFalse(id))
             try {
-                throw new NoSuchIdException("There is no user id "+id+" so you cannot delete it");
+                throw new NoSuchIdException("There is no user with id:"+id+" so you cannot delete it");
             }catch (NoSuchIdException e) {
                 System.out.println(e.getMessage());
             }
