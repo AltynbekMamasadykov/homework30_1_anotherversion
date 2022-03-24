@@ -4,8 +4,8 @@ import java.util.List;
 
 public interface UserService {
 
-    void addUser(List<User> user);
-    List<User> findById(int id);
+    void addUser(User user);
+    User findById(int id);
     void deleteWithId(int id);
     List<User> getAllUsers();
 
